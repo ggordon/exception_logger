@@ -1,11 +1,11 @@
 module ExceptionLogger
   class LoggedExceptionsController < ApplicationController
     layout 'exception_logger/logged_exceptions'
-    
+
     cattr_accessor :application_name,
-                   # A string representation of a method or property that contains 
-                   # a reference to the model instance that should be considered 
-                   # the Creator of the exception 
+                   # A string representation of a method or property that contains
+                   # a reference to the model instance that should be considered
+                   # the Creator of the exception
                    #
                    # Examples:
                    #   self.creator = "User.current"
@@ -53,14 +53,14 @@ module ExceptionLogger
         exceptions = exceptions.by_action(action_filter)
       end
 
-      @exceptions = exceptions.page(params[:page]).per(25)
+      @exceptions = exceptions.paginate(page: params[:page], per_page: 25)
 
       respond_to do |format|
         format.html { redirect_to :action => 'index' unless action_name == 'index' }
         format.js
       end
     end
-    
+
     def feed
       @exceptions = LoggedException.all
 
@@ -84,11 +84,11 @@ module ExceptionLogger
 
     def destroy_all
       LoggedException.delete_all(:id => params[:ids]) unless params[:ids].blank?
-      query 
+      query
     end
 
     private
-    
+
     def access_denied_with_basic_auth
       headers["Status"]           = "Unauthorized"
       headers["WWW-Authenticate"] = %(Basic realm="Web Password")
