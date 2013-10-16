@@ -17,7 +17,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails"
   s.add_dependency "will_paginate"
-  s.add_dependency "squeel"
 
   s.add_development_dependency "shoulda", ">= 2.11.3"
 end
